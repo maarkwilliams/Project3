@@ -2,5 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),  # temporary home view
+    path('add/', views.add_recipe, name='add_recipe'),
+    path('', views.home, name='home'), 
 ]
