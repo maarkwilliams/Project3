@@ -2,6 +2,7 @@ import cloudinary.uploader
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecipeForm
 from .models import Recipe
+from django.contrib.auth.decorators import login_required
 
 # Cloudinary config
 cloudinary.config( 
@@ -10,6 +11,7 @@ cloudinary.config(
     api_secret="ExWH3aUo9TcKCrsbYKSx34Mhpnc"
 )
 
+@login_required
 def add_recipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES)
