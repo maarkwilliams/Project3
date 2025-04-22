@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ recipe.name }}</h1>
+
+  <div class="recipe-detail">
+    <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image" width="300">
+    
+    <h3>Description:</h3>
+    <p>{{ recipe.description }}</p>
+
+    <h3>Category:</h3>
+    <p>{{ recipe.category }}</p>
+
+    <h3>Cuisine:</h3>
+    <p>{{ recipe.cuisine }}</p>
+
+    <h3>Difficulty:</h3>
+    <p>{{ recipe.difficulty }}</p>
+
+    <h3>Serving Size:</h3>
+    <p>{{ recipe.serving_size }}</p>
+
+    <h3>Prep Time:</h3>
+    <p>{{ recipe.prep_time }} minutes</p>
+
+    <h3>Cook Time:</h3>
+    <p>{{ recipe.cook_time }} minutes</p>
+
+    <h3>Total Time:</h3>
+    <p>{{ recipe.total_time }} minutes</p>
+
+    <h3>Instructions:</h3>
+    <p>{{ recipe.instructions }}</p>
+
+    <h3>Created By:</h3>
+    <p>{{ recipe.created_by.username }}</p>
+  </div>
+
+  <a href="{% url 'recipe_list' %}" class="btn btn-primary">Back to Recipes</a>
+{% endblock %}
