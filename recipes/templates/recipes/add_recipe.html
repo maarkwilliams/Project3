@@ -8,13 +8,13 @@
 
     <div class="recipe-form">
       {{ recipe_form.non_field_errors }}
-    
+
       <p>
         {{ recipe_form.image.label_tag }}<br>
         {{ recipe_form.image }}
         {{ recipe_form.image.errors }}
       </p>
-    
+
       {% for field in recipe_form %}
         {% if field.name != 'image' %}
           <p>
@@ -25,14 +25,22 @@
         {% endif %}
       {% endfor %}
     </div>
-    
 
     <h3>Ingredients</h3>
     <div id="ingredient-formset">
       {{ formset.management_form }}
       {% for form in formset %}
         <div class="ingredient-form">
-          {{ form.as_p }}
+          <div class="ingredient-fields">
+            <div class="field-wrapper">
+              {{ form.name.label_tag }}
+              {{ form.name }}
+            </div>
+            <div class="field-wrapper">
+              {{ form.quantity.label_tag }}
+              {{ form.quantity }}
+            </div>
+          </div>
           {% if not forloop.first %}
             <button type="button" class="remove-form">Remove</button>
           {% endif %}
