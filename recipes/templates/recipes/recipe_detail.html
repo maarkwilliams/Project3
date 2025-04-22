@@ -37,5 +37,36 @@
     <p>{{ recipe.created_by.username }}</p>
   </div>
 
+  <h3>Comments</h3>
+  <ul>
+      {% for comment in recipe.comments.all %}
+          <li>{{ comment.user.username }}: {{ comment.content }} ({{ comment.created_at }})</li>
+      {% empty %}
+          <li>No comments yet.</li>
+      {% endfor %}
+  </ul>
+  
+  <h4>Add a comment:</h4>
+  <form action="{% url 'add_comment' recipe.id %}" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit</button>
+  </form>
+
+    <p>{{ likes_count }} Likes</p>
+  
+    {% if user.is_authenticated %}
+      {% if user in recipe.likes.all %}
+        <p>You have liked this recipe!</p>
+      {% else %}
+        <form method="POST">
+          {% csrf_token %}
+          <button type="submit">Like</button>
+        </form>
+      {% endif %}
+    {% else %}
+      <p>You need to be logged in to like this recipe.</p>
+    {% endif %}
+
   <a href="{% url 'recipe_list' %}" class="btn btn-primary">Back to Recipes</a>
 {% endblock %}

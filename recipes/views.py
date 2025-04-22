@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecipeForm
 from .models import Recipe
 from django.contrib.auth.decorators import login_required
+from reviews.forms import CommentForm, LikeForm
+from reviews.models import Like
 
 # Cloudinary config
 cloudinary.config( 
@@ -39,3 +41,26 @@ def recipe_list(request):
 def recipe_detail(request, id):
     recipe = get_object_or_404(Recipe, id=id)
     return render(request, 'recipes/recipe_detail.html', {'recipe': recipe})
+
+def recipe_detail(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+    form = CommentForm(request.POST or None)
+    return render(request, 'recipes/recipe_detail.html', {
+        'recipe': recipe,
+        'form': form
+    })
+
+def recipe_detail(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    likes_count = Like.objects.filter(recipe=recipe).count()
+
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            if not Like.objects.filter(user=request.user, recipe=recipe).exists():
+                Like.objects.create(user=request.user, recipe=recipe)
+            return redirect('recipe_detail', recipe_id=recipe.id)
+
+    return render(request, 'recipes/recipe_detail.html', {
+        'recipe': recipe,
+        'likes_count': likes_count,
+    })
