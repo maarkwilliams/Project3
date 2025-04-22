@@ -19,10 +19,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+def home_redirect(request):
+    return redirect('recipe_list')
+
 urlpatterns = [
+    path('', home_redirect),
     path('admin/', admin.site.urls),
-    path('auth/', include('django.contrib.auth.urls')),
-    path('', include('recipes.urls')),
+    path('recipes/', include('recipes.urls')),
+    path('users/', include('users.urls')),
+    path('reviews/', include('reviews.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

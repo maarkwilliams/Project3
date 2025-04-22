@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'recipes',
+    'users',
+    'reviews',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +141,4 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MEDIA_URL = '/media/'
 
+AUTH_USER_MODEL = 'users.CustomUser'
