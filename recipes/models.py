@@ -1,35 +1,34 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.conf import settings
 
-class Recipe(models.Model):
-    CATEGORY_CHOICES = [
-        ('Breakfast', 'Breakfast'),
-        ('Lunch', 'Lunch'),
-        ('Dinner', 'Dinner'),
-        ('Snack', 'Snack'),
-        ('Drink', 'Drink'),
-    ]
-    
-    DIFFICULTY_CHOICES = [
-        ('Easy', 'Easy'),
-        ('Medium', 'Medium'),
-        ('Hard', 'Hard'),
-    ]
-    
-    CUISINE_CHOICES = [
-        ('American', 'American'),
-        ('Italian', 'Italian'),
-        ('Chinese', 'Chinese'),
-        ('Mexican', 'Mexican'),
-        ('Indian', 'Indian'),
-    ]
+CATEGORY_CHOICES = [
+    ('Breakfast', 'Breakfast'),
+    ('Lunch', 'Lunch'),
+    ('Dinner', 'Dinner'),
+    ('Snack', 'Snack'),
+    ('Drink', 'Drink'),
+]
 
+DIFFICULTY_CHOICES = [
+    ('Easy', 'Easy'),
+    ('Medium', 'Medium'),
+    ('Hard', 'Hard'),
+]
+
+CUISINE_CHOICES = [
+    ('American', 'American'),
+    ('Italian', 'Italian'),
+    ('Chinese', 'Chinese'),
+    ('Mexican', 'Mexican'),
+    ('Indian', 'Indian'),
+]
+
+
+class Recipe(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     prep_time = models.IntegerField()
     cook_time = models.IntegerField()
-    total_time = models.IntegerField()
     serving_size = models.IntegerField()
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     difficulty = models.CharField(max_length=20, choices=DIFFICULTY_CHOICES)
@@ -42,6 +41,15 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        self.total_time = self.prep_time + self.cook_time
-        super().save(*args, **kwargs)
+    @property
+    def total_time(self):
+        return self.prep_time + self.cook_time
+
+
+class Ingredient(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredients')
+    name = models.CharField(max_length=100)
+    quantity = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.quantity} of {self.name}"

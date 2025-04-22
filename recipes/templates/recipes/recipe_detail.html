@@ -30,6 +30,13 @@
     <h3>Total Time:</h3>
     <p>{{ recipe.total_time }} minutes</p>
 
+    <h2>Ingredients:</h2>
+    <ul>
+        {% for ingredient in recipe.ingredients.all %}
+            <li>{{ ingredient.quantity }} - {{ ingredient.name }}</li>
+        {% endfor %}
+    </ul>    
+
     <h3>Instructions:</h3>
     <p>{{ recipe.instructions }}</p>
 
