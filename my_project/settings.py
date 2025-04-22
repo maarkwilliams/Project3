@@ -92,8 +92,9 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'users.CustomUser'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/recipes/add/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/users/login/'
 
 # Add this for static files serving during development
 STATIC_ROOT = BASE_DIR / "staticfiles"
