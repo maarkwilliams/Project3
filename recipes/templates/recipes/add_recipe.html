@@ -7,10 +7,25 @@
     {% csrf_token %}
 
     <div class="recipe-form">
-      {{ recipe_form.image.label_tag }}<br>
-      {{ recipe_form.image }}
-      {{ recipe_form.as_p }}
+      {{ recipe_form.non_field_errors }}
+    
+      <p>
+        {{ recipe_form.image.label_tag }}<br>
+        {{ recipe_form.image }}
+        {{ recipe_form.image.errors }}
+      </p>
+    
+      {% for field in recipe_form %}
+        {% if field.name != 'image' %}
+          <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {{ field.errors }}
+          </p>
+        {% endif %}
+      {% endfor %}
     </div>
+    
 
     <h3>Ingredients</h3>
     <div id="ingredient-formset">
