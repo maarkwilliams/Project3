@@ -64,6 +64,13 @@
           {{ recipe.instructions|linebreaks }}
         </div>
       </div>
+
+      {% if user == recipe.created_by or user.is_staff %}
+      <form method="post" action="{% url 'delete_recipe' recipe.id %}" style="margin-top: 30px;">
+        {% csrf_token %}
+        <button type="submit" class="btn-delete">Delete Post</button>
+      </form>
+      {% endif %}
     </div>
 
     <div class="recipe-sidebar">
