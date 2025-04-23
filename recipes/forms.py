@@ -12,6 +12,13 @@ class RecipeForm(forms.ModelForm):
             'instructions'
         ]
 
+# 👇 Add this to use in inline formset
+class IngredientForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ['name', 'quantity']
+
+# Optional: keep this if you're using it somewhere else
 IngredientFormSet = modelformset_factory(
     Ingredient,
     fields=['name', 'quantity'],

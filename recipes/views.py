@@ -1,11 +1,13 @@
 import cloudinary.uploader
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RecipeForm, IngredientFormSet
+from .forms import RecipeForm, IngredientFormSet, IngredientForm
 from .models import Recipe, Ingredient
 from django.contrib.auth.decorators import login_required
+from django import forms
 from reviews.forms import CommentForm
 from reviews.models import Like
 from django.contrib import messages
+from django.forms import inlineformset_factory
 
 # Cloudinary config
 cloudinary.config(
@@ -85,12 +87,28 @@ def edit_recipe(request, recipe_id):
     if request.user != recipe.created_by and not request.user.is_staff:
         return redirect('recipe_detail', recipe_id=recipe.id)
 
+    IngredientFormSet = inlineformset_factory(
+        Recipe, Ingredient, form=IngredientForm, extra=1, can_delete=True
+    )
+
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
-        if form.is_valid():
+        formset = IngredientFormSet(request.POST, instance=recipe)
+
+        if form.is_valid() and formset.is_valid():
             form.save()
+            formset.save()
             return redirect('recipe_detail', recipe_id=recipe.id)
     else:
         form = RecipeForm(instance=recipe)
+        formset = IngredientFormSet(instance=recipe)
 
-    return render(request, 'recipes/edit_recipe.html', {'form': form, 'recipe': recipe})
+    return render(
+        request,
+        'recipes/edit_recipe.html',
+        {
+            'form': form,
+            'ingredient_forms': formset,
+            'recipe': recipe
+        }
+    )

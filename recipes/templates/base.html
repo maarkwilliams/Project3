@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
+
 <body class="recipe-app">
 
   <header class="site-header">
@@ -21,17 +23,16 @@
           <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
 
           {% if user.is_authenticated %}
-  <li><a href="{% url 'profile' %}">Profile</a></li>
-  <li>
-    <form action="{% url 'logout' %}" method="POST" class="logout-form">
-      {% csrf_token %}
-      <button type="submit" class="logout-btn">Logout</button>
-    </form>
-  </li>
-{% else %}
-  <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
-{% endif %}
-
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li>
+              <form action="{% url 'logout' %}" method="POST" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+              </form>
+            </li>
+          {% else %}
+            <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
+          {% endif %}
         </ul>
       </nav>
     </div>
@@ -50,4 +51,5 @@
 
   <script src="{% static 'js/script.js' %}"></script>
 </body>
+
 </html>

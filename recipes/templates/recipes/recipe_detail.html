@@ -66,16 +66,15 @@
       </div>
 
       {% if user == recipe.created_by or user.is_staff %}
-  <div class="recipe-actions-container">
-    <a href="{% url 'edit_recipe' recipe.id %}" class="btn-edit">Edit Recipe</a>
+        <div class="recipe-actions-container">
+          <a href="{% url 'edit_recipe' recipe.id %}" class="btn-edit">Edit Recipe</a>
 
-    <form method="post" action="{% url 'delete_recipe' recipe.id %}">
-      {% csrf_token %}
-      <button type="submit" class="btn-delete">Delete Post</button>
-    </form>
-  </div>
-{% endif %}
-
+          <form method="post" action="{% url 'delete_recipe' recipe.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-delete">Delete Post</button>
+          </form>
+        </div>
+      {% endif %}
     </div>
 
     <div class="recipe-sidebar">
