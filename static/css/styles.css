@@ -799,3 +799,40 @@ a:hover {
 .signup-link a:hover {
   color: #e03e00;
 }
+
+.form-error {
+  color: #e03e00;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.form-help {
+  color: #777;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1.1rem;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: #ff6347;
+  box-shadow: 0 0 10px rgba(255, 99, 71, 0.2);
+}
+
+.login-box form {
+  margin-bottom: 20px;
+}

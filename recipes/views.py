@@ -70,10 +70,10 @@ def recipe_detail(request, recipe_id):
 def delete_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
 
-    if request.user == recipe.author or request.user.is_staff:
+    if request.user == recipe.created_by or request.user.is_staff:
         recipe.delete()
         messages.success(request, "Recipe deleted successfully.")
-        return redirect('home')
+        return redirect('recipe_list')
     else:
         messages.error(request, "You are not authorized to delete this recipe.")
         return redirect('recipe_detail', recipe_id=recipe.id)
