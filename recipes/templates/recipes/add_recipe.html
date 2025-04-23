@@ -54,56 +54,85 @@
 
   <p><a href="{% url 'recipe_list' %}">Back to Recipe List</a></p>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const formsetDiv = document.getElementById('ingredient-formset');
-      const addBtn = document.getElementById('add-ingredient');
-      const totalForms = document.getElementById('id_form-TOTAL_FORMS');
-      const maxForms = document.getElementById('id_form-MAX_NUM_FORMS');
+  <div id="empty-form" style="display: none;">
+    <div class="ingredient-form">
+      <div class="ingredient-fields">
+        <div class="field-wrapper">
+          <label for="id_ingredient_set-__prefix__-name">Name:</label>
+          <input type="text" name="ingredient_set-__prefix__-name" id="id_ingredient_set-__prefix__-name">
+        </div>
+        <div class="field-wrapper">
+          <label for="id_ingredient_set-__prefix__-quantity">Quantity:</label>
+          <input type="text" name="ingredient_set-__prefix__-quantity" id="id_ingredient_set-__prefix__-quantity">
+        </div>
+      </div>
+      <button type="button" class="remove-form">Remove</button>
+    </div>
+  </div>
+{% endblock %}
 
-      function updateFormIndices() {
-        const forms = formsetDiv.getElementsByClassName('ingredient-form');
-        for (let i = 0; i < forms.length; i++) {
-          const inputs = forms[i].querySelectorAll('input, select');
-          inputs.forEach(input => {
-            input.name = input.name.replace(/form-\d+-/, `form-${i}-`);
-            input.id = input.id.replace(/form-\d+-/, `form-${i}-`);
-          });
-        }
-      }
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const formsetDiv = document.getElementById('ingredient-formset');
+    const addBtn = document.getElementById('add-ingredient');
+    const totalForms = document.querySelector('[name$="-TOTAL_FORMS"]');
+    const maxForms = document.querySelector('[name$="-MAX_NUM_FORMS"]');
+    if (!totalForms || !maxForms) return;
 
-      addBtn.addEventListener('click', () => {
-        const currentFormCount = parseInt(totalForms.value);
-        if (currentFormCount >= parseInt(maxForms.value)) {
-          alert('Maximum number of ingredients reached');
-          return;
-        }
+    const formsetPrefix = totalForms.name.replace('-TOTAL_FORMS', '');
+    const emptyForm = document.getElementById('empty-form').innerHTML;
 
-        const newForm = formsetDiv.querySelector('.ingredient-form').cloneNode(true);
-        const inputs = newForm.querySelectorAll('input');
+    function isFormEmpty(form) {
+      const nameInput = form.querySelector('input[name$="-name"]');
+      const quantityInput = form.querySelector('input[name$="-quantity"]');
+      return (!nameInput.value && !quantityInput.value);
+    }
+
+    function updateFormIndices() {
+      const forms = formsetDiv.getElementsByClassName('ingredient-form');
+      for (let i = 0; i < forms.length; i++) {
+        const inputs = forms[i].querySelectorAll('input, select');
         inputs.forEach(input => {
-          input.value = '';
-          input.name = input.name.replace(/form-\d+-/, `form-${currentFormCount}-`);
-          input.id = input.id.replace(/form-\d+-/, `form-${currentFormCount}-`);
+          input.name = input.name.replace(new RegExp(`${formsetPrefix}-\\d+-`), `${formsetPrefix}-${i}-`);
+          input.id = input.id.replace(new RegExp(`${formsetPrefix}-\\d+-`), `${formsetPrefix}-${i}-`);
         });
+      }
+    }
 
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.className = 'remove-form';
-        removeBtn.textContent = 'Remove';
-        newForm.appendChild(removeBtn);
+    addBtn.addEventListener('click', () => {
+      const currentFormCount = parseInt(totalForms.value);
+      if (currentFormCount >= parseInt(maxForms.value)) return;
 
-        formsetDiv.appendChild(newForm);
-        totalForms.value = currentFormCount + 1;
-      });
+      const newFormHtml = emptyForm.replace(/__prefix__/g, currentFormCount);
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = newFormHtml;
+      formsetDiv.appendChild(tempDiv.firstElementChild);
+      totalForms.value = currentFormCount + 1;
+    });
 
-      formsetDiv.addEventListener('click', (e) => {
-        if (e.target.classList.contains('remove-form')) {
-          e.target.parentElement.remove();
+    formsetDiv.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove-form')) {
+        const form = e.target.closest('.ingredient-form');
+        if (!isFormEmpty(form)) {
+          form.style.display = 'none';
+        } else {
+          form.remove();
           totalForms.value = parseInt(totalForms.value) - 1;
           updateFormIndices();
         }
-      });
+      }
     });
-  </script>
+
+    const forms = formsetDiv.getElementsByClassName('ingredient-form');
+    for (let i = forms.length - 1; i >= 1; i--) {
+      if (isFormEmpty(forms[i])) {
+        forms[i].remove();
+        totalForms.value = parseInt(totalForms.value) - 1;
+      }
+    }
+
+    updateFormIndices();
+  });
+</script>
 {% endblock %}
