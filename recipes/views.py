@@ -1,7 +1,7 @@
 import cloudinary.uploader
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecipeForm, IngredientFormSet, IngredientForm
-from .models import Recipe, Ingredient
+from .models import Recipe, Ingredient, CATEGORY_CHOICES, CUISINE_CHOICES
 from django.contrib.auth.decorators import login_required
 from django import forms
 from reviews.forms import CommentForm
@@ -67,7 +67,9 @@ def add_recipe(request):
 
 def recipe_list(request):
     recipes = Recipe.objects.all()
-    return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
+    return render(request, 'recipes/recipe_list.html', {
+        'recipes': recipes,
+    })
 
 def recipe_detail(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
@@ -150,3 +152,16 @@ def edit_recipe(request, recipe_id):
         'recipe': recipe
     })
 
+def recipes_by_category(request, category):
+    recipes = Recipe.objects.filter(category=category)
+    return render(request, 'recipes/recipe_list.html', {
+        'recipes': recipes,
+        'filter_title': f"{category} Recipes"
+    })
+
+def recipes_by_cuisine(request, cuisine):
+    recipes = Recipe.objects.filter(cuisine=cuisine)
+    return render(request, 'recipes/recipe_list.html', {
+        'recipes': recipes,
+        'filter_title': f"{cuisine} Cuisine"
+    })

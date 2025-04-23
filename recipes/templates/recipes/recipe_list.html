@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>All Recipes</h1>
+
+{% if filter_title %}
+  <h2>{{ filter_title }}</h2>
+{% else %}
+  <h2>All Recipes</h2>
+{% endif %}
   
   <a href="{% url 'add_recipe' %}" class="btn btn-primary">Add New Recipe</a>
 
