@@ -1,79 +1,132 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>{{ recipe.name }}</h1>
-
-  <div class="recipe-detail">
-    <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image" width="300">
-    
-    <h3>Description:</h3>
-    <p>{{ recipe.description }}</p>
-
-    <h3>Category:</h3>
-    <p>{{ recipe.category }}</p>
-
-    <h3>Cuisine:</h3>
-    <p>{{ recipe.cuisine }}</p>
-
-    <h3>Difficulty:</h3>
-    <p>{{ recipe.difficulty }}</p>
-
-    <h3>Serving Size:</h3>
-    <p>{{ recipe.serving_size }}</p>
-
-    <h3>Prep Time:</h3>
-    <p>{{ recipe.prep_time }} minutes</p>
-
-    <h3>Cook Time:</h3>
-    <p>{{ recipe.cook_time }} minutes</p>
-
-    <h3>Total Time:</h3>
-    <p>{{ recipe.total_time }} minutes</p>
-
-    <h2>Ingredients:</h2>
-    <ul>
-        {% for ingredient in recipe.ingredients.all %}
-            <li>{{ ingredient.quantity }} - {{ ingredient.name }}</li>
-        {% endfor %}
-    </ul>    
-
-    <h3>Instructions:</h3>
-    <p>{{ recipe.instructions }}</p>
-
-    <h3>Created By:</h3>
-    <p>{{ recipe.created_by.username }}</p>
+<div class="recipe-detail-container">
+  <div class="recipe-header">
+    <div class="recipe-header-content">
+      <h1 class="recipe-title">{{ recipe.name }}</h1>
+      <div class="recipe-meta">
+        <div class="recipe-stats">
+          <span class="stat"><i class="fas fa-clock"></i> {{ recipe.total_time }} mins</span>
+          <span class="stat"><i class="fas fa-users"></i> Serves {{ recipe.serving_size }}</span>
+          <span class="stat"><i class="fas fa-signal"></i> {{ recipe.difficulty }}</span>
+        </div>
+        <br>
+        <span class="recipe-author">By {{ recipe.created_by.username }}</span>
+      </div>
+    </div>
+    <div class="recipe-header-image">
+      <img src="{{ recipe.image_url }}" alt="{{ recipe.name }}" class="recipe-main-image">
+    </div>
   </div>
 
-  <h3>Comments</h3>
-  <ul>
-      {% for comment in recipe.comments.all %}
-          <li>{{ comment.user.username }}: {{ comment.content }} ({{ comment.created_at }})</li>
-      {% empty %}
-          <li>No comments yet.</li>
-      {% endfor %}
-  </ul>
-  
-  <h4>Add a comment:</h4>
-  <form action="{% url 'add_comment' recipe.id %}" method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Submit</button>
-  </form>
+  <div class="recipe-content">
+    <div class="recipe-main-info">
+      <div class="recipe-description">
+        <h2>About this Recipe</h2>
+        <p>{{ recipe.description }}</p>
+      </div>
 
-    <p>{{ likes_count }} Likes</p>
-  
-    {% if user.is_authenticated %}
-      {% if user in recipe.likes.all %}
-        <p>You have liked this recipe!</p>
-      {% else %}
-        <form method="POST">
-          {% csrf_token %}
-          <button type="submit">Like</button>
-        </form>
-      {% endif %}
-    {% else %}
-      <p>You need to be logged in to like this recipe.</p>
-    {% endif %}
+      <div class="recipe-details-grid">
+        <div class="detail-card">
+          <h3>Category</h3>
+          <p>{{ recipe.category }}</p>
+        </div>
+        <div class="detail-card">
+          <h3>Cuisine</h3>
+          <p>{{ recipe.cuisine }}</p>
+        </div>
+        <div class="detail-card">
+          <h3>Prep Time</h3>
+          <p>{{ recipe.prep_time }} mins</p>
+        </div>
+        <div class="detail-card">
+          <h3>Cook Time</h3>
+          <p>{{ recipe.cook_time }} mins</p>
+        </div>
+      </div>
 
-  <a href="{% url 'recipe_list' %}" class="btn btn-primary">Back to Recipes</a>
+      <div class="recipe-ingredients">
+        <h2>Ingredients</h2>
+        <ul class="ingredients-list">
+          {% for ingredient in recipe.ingredients.all %}
+            <li class="ingredient-item">
+              <span class="ingredient-quantity">{{ ingredient.quantity }}</span>
+              <span class="ingredient-name">{{ ingredient.name }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="recipe-instructions">
+        <h2>Instructions</h2>
+        <div class="instructions-content">
+          {{ recipe.instructions|linebreaks }}
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-sidebar">
+      <div class="recipe-actions">
+        {% if user.is_authenticated %}
+          {% if user in recipe.likes.all %}
+            <button class="btn-like liked" disabled>
+              <i class="fas fa-heart"></i> Liked
+            </button>
+          {% else %}
+            <form method="POST" class="like-form">
+              {% csrf_token %}
+              <button type="submit" class="btn-like">
+                <i class="far fa-heart"></i> Like
+              </button>
+            </form>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'login' %}" class="btn-like">
+            <i class="far fa-heart"></i> Login to Like
+          </a>
+        {% endif %}
+        <span class="likes-count">{{ likes_count }} likes</span>
+      </div>
+
+      <div class="recipe-comments">
+        <h3>Comments</h3>
+        <div class="comments-list">
+          {% for comment in recipe.comments.all %}
+            <div class="comment">
+              <div class="comment-header">
+                <span class="comment-author">{{ comment.user.username }}</span>
+                <span class="comment-date">{{ comment.created_at|date:"M d, Y" }}</span>
+              </div>
+              <p class="comment-content">{{ comment.content }}</p>
+            </div>
+          {% empty %}
+            <p class="no-comments">No comments yet. Be the first to comment!</p>
+          {% endfor %}
+        </div>
+
+        {% if user.is_authenticated %}
+          <div class="comment-form">
+            <h4>Add a comment</h4>
+            <form action="{% url 'add_comment' recipe.id %}" method="POST">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="btn-submit">Post Comment</button>
+            </form>
+          </div>
+        {% else %}
+          <div class="login-prompt">
+            <p>Please <a href="{% url 'login' %}">login</a> to leave a comment.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe-footer">
+    <a href="{% url 'recipe_list' %}" class="btn-back">
+      <i class="fas fa-arrow-left"></i> Back to Recipes
+    </a>
+  </div>
+</div>
 {% endblock %}
