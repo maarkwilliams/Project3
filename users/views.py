@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
+from recipes.models import Recipe  
 
 # User Registration view
 def register(request):
@@ -40,6 +41,13 @@ def profile(request):
         form = UserProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
+            return redirect('profile')
     else:
         form = UserProfileForm(instance=request.user)
-    return render(request, 'users/profile.html', {'form': form})
+
+    user_recipes = Recipe.objects.filter(created_by=request.user)
+
+    return render(request, 'users/profile.html', {
+        'form': form,
+        'recipes': user_recipes,
+    })

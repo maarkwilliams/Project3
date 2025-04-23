@@ -836,3 +836,99 @@ a:hover {
 .login-box form {
   margin-bottom: 20px;
 }
+
+/* Profile page */
+.profile-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px;
+}
+
+.profile-image img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ff6347;
+  box-shadow: 0 4px 8px rgba(255, 99, 71, 0.2);
+}
+
+.profile-info h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.bio-section {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.bio-section p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+#bio-form {
+  margin-top: 1rem;
+}
+
+#bio-form textarea {
+  width: 100%;
+  min-height: 100px;
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.btn-edit,
+#bio-form button {
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.btn-edit:hover,
+#bio-form button:hover {
+  background-color: #e03e00;
+}
+
+.profile-container h3 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: #333;
+}

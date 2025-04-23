@@ -14,22 +14,23 @@
 
   <header class="site-header">
     <div class="container">
-      <h1 class="logo">RecipeApp</h1>
+      <h1 class="logo">TasteBuds</h1>
       <nav class="nav-menu">
         <ul>
           <li><a href="{% url 'recipe_list' %}">Home</a></li>
           <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
 
           {% if user.is_authenticated %}
-            <li>
-              <form action="{% url 'logout' %}" method="POST" class="logout-form">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">Logout</button>
-              </form>
-            </li>
-          {% else %}
-            <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
-          {% endif %}
+  <li><a href="{% url 'profile' %}">Profile</a></li>
+  <li>
+    <form action="{% url 'logout' %}" method="POST" class="logout-form">
+      {% csrf_token %}
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+  </li>
+{% else %}
+  <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
+{% endif %}
 
         </ul>
       </nav>

@@ -1,10 +1,70 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
-  <h2>Profile</h2>
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update Profile</button>
-  </form>
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-image">
+      {% if user.profile_picture %}
+        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s Profile Picture">
+      {% else %}
+        <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture">
+      {% endif %}
+    </div>
+
+    <div class="profile-info">
+      <h2>Welcome, {{ user.username }} 👋</h2>
+
+      <div class="bio-section">
+        <p id="bio-text">{{ user.bio|default:"No bio added yet." }}</p>
+        
+        <form method="POST" enctype="multipart/form-data" id="bio-form" style="display: none;">
+          {% csrf_token %}
+          
+          <label for="id_bio">Bio:</label>
+          {{ form.bio }}
+        
+          <label for="id_profile_picture">Change Profile Picture:</label>
+          {{ form.profile_picture }}
+        
+          <button type="submit">Save Changes</button>
+        </form>
+        
+
+        <button id="edit-bio-btn" class="btn-edit">Edit Bio</button>
+      </div>
+    </div>
+  </div>
+
+  <h3>Your Recipes</h3>
+  {% if user.recipe_set.all %}
+    <div class="recipe-card-container">
+      {% for recipe in user.recipe_set.all %}
+        <div class="recipe-card">
+          <img class="recipe-card-img" src="{{ recipe.image_url }}" alt="{{ recipe.name }}">
+          <div class="recipe-card-content">
+            <a href="{% url 'recipe_detail' recipe.id %}" class="recipe-card-title">{{ recipe.name }}</a>
+            <p class="recipe-card-description">{{ recipe.description|truncatewords:15 }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>You haven't added any recipes yet.</p>
+  {% endif %}
+</div>
+
+<script>
+  const editBtn = document.getElementById('edit-bio-btn');
+  const bioForm = document.getElementById('bio-form');
+  const bioText = document.getElementById('bio-text');
+
+  editBtn.addEventListener('click', () => {
+    bioForm.style.display = 'block';
+    bioText.style.display = 'none';
+    editBtn.style.display = 'none';
+  });
+</script>
+
 {% endblock %}
