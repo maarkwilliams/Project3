@@ -560,12 +560,58 @@ a:hover {
   gap: 2rem;
 }
 
-.recipe-actions {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.recipe-actions-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.recipe-actions-container form {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.recipe-actions-container .btn-edit,
+.recipe-actions-container .btn-delete,
+.recipe-actions-container form button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 30px;
+  text-decoration: none;
+  cursor: pointer;
   text-align: center;
+  min-width: 160px;
+  height: 48px;
+  line-height: 1;
+  box-shadow: 0 4px 6px rgba(255, 99, 71, 0.2);
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.recipe-actions-container form button {
+  appearance: none;
+}
+
+.recipe-actions-container .btn-edit {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.recipe-actions-container .btn-delete {
+  display: inline-flex;
+  align-items: center;
 }
 
 .btn-like {

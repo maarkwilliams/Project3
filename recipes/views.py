@@ -77,3 +77,20 @@ def delete_recipe(request, recipe_id):
     else:
         messages.error(request, "You are not authorized to delete this recipe.")
         return redirect('recipe_detail', recipe_id=recipe.id)
+    
+@login_required
+def edit_recipe(request, recipe_id):
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+
+    if request.user != recipe.created_by and not request.user.is_staff:
+        return redirect('recipe_detail', recipe_id=recipe.id)
+
+    if request.method == 'POST':
+        form = RecipeForm(request.POST, request.FILES, instance=recipe)
+        if form.is_valid():
+            form.save()
+            return redirect('recipe_detail', recipe_id=recipe.id)
+    else:
+        form = RecipeForm(instance=recipe)
+
+    return render(request, 'recipes/edit_recipe.html', {'form': form, 'recipe': recipe})
