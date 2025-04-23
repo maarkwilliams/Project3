@@ -68,6 +68,25 @@ textarea {
   resize: vertical;
 }
 
+/* Image upload */
+.current-image {
+  margin-bottom: 1rem;
+}
+
+.recipe-preview-image {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.image-help {
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
 /* Ingredient formset */
 .ingredient-title {
   margin-bottom: 1.5rem;
@@ -122,6 +141,26 @@ textarea {
 
 .submit-btn:hover {
   background: #218838;
+}
+
+/* Error messages */
+.form-errors {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.recipe-errors,
+.ingredient-errors {
+  margin-top: 1rem;
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
 /* Responsive design */

@@ -7,7 +7,6 @@ from django import forms
 from reviews.forms import CommentForm
 from reviews.models import Like
 from django.contrib import messages
-from django.forms import inlineformset_factory
 
 # Cloudinary config
 cloudinary.config(
@@ -82,33 +81,45 @@ def delete_recipe(request, recipe_id):
     
 @login_required
 def edit_recipe(request, recipe_id):
-    recipe = get_object_or_404(Recipe, pk=recipe_id)
-
-    if request.user != recipe.created_by and not request.user.is_staff:
-        return redirect('recipe_detail', recipe_id=recipe.id)
-
-    IngredientFormSet = inlineformset_factory(
-        Recipe, Ingredient, form=IngredientForm, extra=1, can_delete=True
-    )
-
+    recipe = get_object_or_404(Recipe, id=recipe_id, created_by=request.user)
+    
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
-        formset = IngredientFormSet(request.POST, instance=recipe)
-
-        if form.is_valid() and formset.is_valid():
-            form.save()
-            formset.save()
-            return redirect('recipe_detail', recipe_id=recipe.id)
+        ingredient_forms = IngredientFormSet(request.POST, instance=recipe)
+        
+        if form.is_valid():
+            recipe = form.save(commit=False)
+            recipe.created_by = request.user
+            
+            if 'image' in request.FILES:
+                recipe.image = request.FILES['image']
+            
+            recipe.save()
+            
+            if ingredient_forms.is_valid():
+                for form in ingredient_forms:
+                    if form.cleaned_data.get('DELETE'):
+                        form.instance.delete()
+                
+                for form in ingredient_forms:
+                    if not form.cleaned_data.get('DELETE'):
+                        if form.cleaned_data.get('name') or form.cleaned_data.get('quantity'):
+                            ingredient = form.save(commit=False)
+                            ingredient.recipe = recipe
+                            ingredient.save()
+                
+                messages.success(request, 'Recipe updated successfully!')
+                return redirect('recipe_detail', recipe_id=recipe.id)
+            else:
+                messages.error(request, 'Please correct the errors in the ingredient forms.')
+        else:
+            messages.error(request, 'Please correct the errors in the recipe form.')
     else:
         form = RecipeForm(instance=recipe)
-        formset = IngredientFormSet(instance=recipe)
-
-    return render(
-        request,
-        'recipes/edit_recipe.html',
-        {
-            'form': form,
-            'ingredient_forms': formset,
-            'recipe': recipe
-        }
-    )
+        ingredient_forms = IngredientFormSet(instance=recipe)
+    
+    return render(request, 'recipes/edit_recipe.html', {
+        'form': form,
+        'ingredient_forms': ingredient_forms,
+        'recipe': recipe
+    })

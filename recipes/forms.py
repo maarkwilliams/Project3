@@ -1,9 +1,9 @@
 from django import forms
-from django.forms import modelformset_factory
+from django.forms import inlineformset_factory
 from .models import Recipe, Ingredient
 
 class RecipeForm(forms.ModelForm):
-    image = forms.ImageField(required=True)
+    image = forms.ImageField(required=False)
     class Meta:
         model = Recipe
         fields = [
@@ -12,15 +12,23 @@ class RecipeForm(forms.ModelForm):
             'instructions'
         ]
 
-# 👇 Add this to use in inline formset
 class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
         fields = ['name', 'quantity']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.instance.pk:
+            self.fields['name'].required = False
+            self.fields['quantity'].required = False
+            self.fields['id'] = forms.CharField(required=False, widget=forms.HiddenInput())
 
-# Optional: keep this if you're using it somewhere else
-IngredientFormSet = modelformset_factory(
+IngredientFormSet = inlineformset_factory(
+    Recipe,
     Ingredient,
-    fields=['name', 'quantity'],
-    extra=1,
+    form=IngredientForm,
+    extra=0,
+    can_delete=True,
+    validate_min=False
 )
