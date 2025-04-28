@@ -17,7 +17,12 @@
   <header class="site-header">
     <div class="container">
       <a href="{% url 'recipe_list' %}" class="logo">TasteBuds</a>
-      <nav class="nav-menu">
+      <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>      
+      <nav class="nav-menu" id="navigation">
         <ul>
           <li><a href="{% url 'recipe_list' %}">Home</a></li>
           <li class="dropdown">
@@ -68,8 +73,23 @@
       <p>&copy; 2025 RecipeApp. All rights reserved.</p>
     </div>
   </footer>
+
   {% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const burger = document.querySelector('.burger');
+      const navMenu = document.querySelector('.nav-menu');
+
+      burger.addEventListener('click', function () {
+        navMenu.classList.toggle('active');
+        
+        const expanded = burger.getAttribute('aria-expanded') === 'true' || false;
+        burger.setAttribute('aria-expanded', !expanded);
+      });
+    });
+  </script>
   {% endblock %}
+
 </body>
 
 </html>
