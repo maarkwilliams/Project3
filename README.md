@@ -344,7 +344,7 @@ The choice of a relational database system ensures that data can be stored with 
 
 [Django](https://www.djangoproject.com/) - Version 5.2 - a powerful and flexible Python web framework that promotes efficient development and clean, maintainable code, allowing developers to build robust web applications quickly.
 
-## 📦 Libraries & Packages Used
+## Libraries & Packages Used
 
 This project relies on several Python libraries and packages to enhance functionality, improve performance, and ensure ease of development. Below are the key libraries and their official websites:
 
@@ -464,4 +464,4 @@ I would like to acknowledge the following people who have helped me with complet
 * My brother for his patience and support whilst working on my final project.
 * My Code Institute mentor, Jubril.
 * My Code Institute tutor, Marko.
-* My friend Josh who helped me troubleshoot when I was stuck on difficukt bugs.
+* My friend Josh who helped me troubleshoot when I was stuck on difficult bugs.
