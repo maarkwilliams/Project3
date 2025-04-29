@@ -2,7 +2,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,9 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
-
 <body class="recipe-app">
-
   <header class="site-header">
     <div class="container">
       <a href="{% url 'recipe_list' %}" class="logo">TasteBuds</a>
@@ -49,32 +46,31 @@
           </li>
           <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
           {% if user.is_authenticated %}
-            <li><a href="{% url 'profile' %}">Profile</a></li>
-            <li>
-              <form action="{% url 'logout' %}" method="POST" class="logout-form">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">Logout</button>
-              </form>
-            </li>
-          {% else %}
-            <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>   
           {% endif %}
         </ul>
       </nav>
+      <div class="auth-links">
+        {% if user.is_authenticated %}
+          <form action="{% url 'logout' %}" method="POST" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}" class="login-btn">Login</a>
+        {% endif %}
+      </div>      
     </div>
   </header>
-
   <main class="main-content">
     {% block content %}
     {% endblock %}
   </main>
-
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2025 RecipeApp. All rights reserved.</p>
     </div>
   </footer>
-
   {% block scripts %}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -90,7 +86,5 @@
     });
   </script>
   {% endblock %}
-
 </body>
-
 </html>

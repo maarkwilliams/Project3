@@ -47,7 +47,7 @@ h1, h2 {
 }
 
 .logo {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 600;
   color: #333;
   text-decoration: none;
@@ -85,8 +85,7 @@ h1, h2 {
   font-size: 1.2rem;
   color: white;
   padding: 8px 16px;
-  border-radius: 25px;
-  background-color: #ff4500;
+  background-color: transparent;
   text-decoration: none;
   display: block;
   transition: background-color 0.3s, color 0.3s;
@@ -97,6 +96,8 @@ h1, h2 {
 .nested-dropdown-content a:hover {
   background-color: #e03e00;
   color: #fff;
+  border: 2px solid #ff4500;
+  border-radius: 0;
 }
 
 .dropdown,
@@ -141,6 +142,31 @@ h1, h2 {
 .nested-dropdown-content a:hover {
   background-color: #f1f1f1;
   color: #ff4500;
+}
+
+.auth-links {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+.auth-links .login-btn,
+.auth-links .logout-btn {
+  background-color: #ff6347;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.auth-links .login-btn:hover,
+.auth-links .logout-btn:hover {
+  background-color: #ff4500;
+  color: white;
 }
 
 /* Footer */
@@ -435,28 +461,6 @@ a:hover {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
-}
-
-.logout-form {
-  display: inline;
-}
-
-.logout-form button.logout-btn {
-  font-size: 1.2rem;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 25px;
-  background-color: #ff4500;
-  transition: background-color 0.3s;
-  border: none;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.logout-form button.logout-btn:hover {
-  background-color: #e03e00;
 }
 
 .recipe-detail-container {
