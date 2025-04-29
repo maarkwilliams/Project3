@@ -14,6 +14,7 @@ cloudinary.config(
     api_secret="ExWH3aUo9TcKCrsbYKSx34Mhpnc"
 )
 
+
 @login_required
 def add_recipe(request):
     if request.method == 'POST':
@@ -31,26 +32,34 @@ def add_recipe(request):
             recipe.save()
 
             for form in formset:
-                if form.cleaned_data.get('name') or form.cleaned_data.get('quantity'):
+                name = form.cleaned_data.get('name')
+                quantity = form.cleaned_data.get('quantity')
+
+                if name or quantity:
                     ingredient = form.save(commit=False)
                     ingredient.recipe = recipe
                     ingredient.save()
+                    return redirect('recipe_list')
 
-            return redirect('recipe_list')
     else:
         recipe_form = RecipeForm()
-        formset = IngredientFormSet(queryset=Ingredient.objects.none(), prefix='ingredient_set')
+        formset = IngredientFormSet(
+            queryset=Ingredient.objects.none(),
+            prefix='ingredient_set'
+        )
 
     return render(request, 'recipes/add_recipe.html', {
         'recipe_form': recipe_form,
         'formset': formset,
     })
 
+
 def recipe_list(request):
     recipes = Recipe.objects.all()
     return render(request, 'recipes/recipe_list.html', {
         'recipes': recipes,
     })
+
 
 def recipe_detail(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
@@ -59,7 +68,9 @@ def recipe_detail(request, recipe_id):
 
     if request.method == 'POST':
         if request.user.is_authenticated:
-            if not Like.objects.filter(user=request.user, recipe=recipe).exists():
+            if not Like.objects.filter(
+                user=request.user, recipe=recipe
+            ).exists():
                 Like.objects.create(user=request.user, recipe=recipe)
             return redirect('recipe_detail', recipe_id=recipe.id)
 
@@ -68,6 +79,7 @@ def recipe_detail(request, recipe_id):
         'likes_count': likes_count,
         'form': comment_form,
     })
+
 
 @login_required
 def delete_recipe(request, recipe_id):
@@ -78,8 +90,11 @@ def delete_recipe(request, recipe_id):
         messages.success(request, "Recipe deleted successfully.")
         return redirect('recipe_list')
     else:
-        messages.error(request, "You are not authorized to delete this recipe.")
+        messages.error(
+            request, "You are not authorized to delete this recipe."
+        )
         return redirect('recipe_detail', recipe_id=recipe.id)
+
 
 @login_required
 def edit_recipe(request, recipe_id):
@@ -87,7 +102,8 @@ def edit_recipe(request, recipe_id):
 
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
-        ingredient_forms = IngredientFormSet(request.POST, instance=recipe, prefix='ingredient_set')
+        ingredient_forms = IngredientFormSet(
+            request.POST, instance=recipe, prefix='ingredient_set')
 
         if form.is_valid():
             recipe = form.save(commit=False)
@@ -95,15 +111,21 @@ def edit_recipe(request, recipe_id):
 
             if 'image' in request.FILES:
                 try:
-                    upload_result = cloudinary.uploader.upload(request.FILES['image'])
+                    upload_result = cloudinary.uploader.upload(
+                        request.FILES['image']
+                    )
                     recipe.image_url = upload_result['secure_url']
                 except Exception as e:
                     messages.error(request, 'Failed to upload new image.')
-                    return render(request, 'recipes/edit_recipe.html', {
-                        'form': form,
-                        'ingredient_forms': ingredient_forms,
-                        'recipe': recipe
-                    })
+                    return render(
+                        request,
+                        'recipes/edit_recipe.html',
+                        {
+                            'form': form,
+                            'ingredient_forms': ingredient_forms,
+                            'recipe': recipe
+                        }
+                    )
 
             recipe.save()
 
@@ -111,20 +133,29 @@ def edit_recipe(request, recipe_id):
                 for form in ingredient_forms:
                     if form.cleaned_data.get('DELETE'):
                         form.instance.delete()
-                    elif form.cleaned_data.get('name') or form.cleaned_data.get('quantity'):
+                    elif (form.cleaned_data.get('name') or
+                            form.cleaned_data.get('quantity')):
+
                         ingredient = form.save(commit=False)
                         ingredient.recipe = recipe
                         ingredient.save()
 
-                messages.success(request, 'Recipe updated successfully!')
+                messages.success(
+                    request, 'Recipe updated successfully!'
+                )
                 return redirect('recipe_detail', recipe_id=recipe.id)
             else:
-                messages.error(request, 'Please correct the errors in the ingredient forms.')
+                messages.error(
+                    request,
+                    'Please correct the errors in the ingredient forms.'
+                )
         else:
-            messages.error(request, 'Please correct the errors in the recipe form.')
+            messages.error(
+                request, 'Please correct the errors in the recipe form.')
     else:
         form = RecipeForm(instance=recipe)
-        ingredient_forms = IngredientFormSet(instance=recipe, prefix='ingredient_set')
+        ingredient_forms = IngredientFormSet(
+            instance=recipe, prefix='ingredient_set')
 
     return render(request, 'recipes/edit_recipe.html', {
         'form': form,
@@ -132,12 +163,14 @@ def edit_recipe(request, recipe_id):
         'recipe': recipe
     })
 
+
 def recipes_by_category(request, category):
     recipes = Recipe.objects.filter(category=category)
     return render(request, 'recipes/recipe_list.html', {
         'recipes': recipes,
         'filter_title': f"{category} Recipes"
     })
+
 
 def recipes_by_cuisine(request, cuisine):
     recipes = Recipe.objects.filter(cuisine=cuisine)

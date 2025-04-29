@@ -24,6 +24,7 @@ from django.shortcuts import redirect
 def home_redirect(request):
     return redirect('recipe_list')
 
+
 urlpatterns = [
     path('', home_redirect),
     path('admin/', admin.site.urls),

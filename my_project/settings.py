@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-ll%@gw@xqs=gh#xtjkm2ucm1_em(8nplt06dpic0d3h)_o6y$8'
 DEBUG = True
-ALLOWED_HOSTS = ['.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -65,10 +65,10 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
 LANGUAGE_CODE = 'en-us'

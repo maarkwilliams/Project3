@@ -35,7 +35,11 @@ class Recipe(models.Model):
     cuisine = models.CharField(max_length=20, choices=CUISINE_CHOICES)
     image_url = models.URLField(blank=True)
     instructions = models.TextField()
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -47,7 +51,11 @@ class Recipe(models.Model):
 
 
 class Ingredient(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredients')
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='ingredients'
+    )
     name = models.CharField(max_length=100)
     quantity = models.CharField(max_length=50)
 

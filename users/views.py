@@ -3,7 +3,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
-from recipes.models import Recipe  
+from recipes.models import Recipe
+
 
 # User Registration view
 def register(request):
@@ -17,6 +18,7 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, 'users/register.html', {'form': form})
 
+
 # User Login view
 def login_view(request):
     if request.method == 'POST':
@@ -29,16 +31,22 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
 
+
 # User Logout view
 def logout_view(request):
     logout(request)
     return redirect('login')
 
+
 # User Profile view
 @login_required
 def profile(request):
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        form = UserProfileForm(
+            request.POST,
+            request.FILES,
+            instance=request.user
+        )
         if form.is_valid():
             form.save()
             return redirect('profile')

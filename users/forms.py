@@ -3,12 +3,19 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from .models import CustomUser
 
+
 class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'placeholder': 'Enter your email'}))
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(
+            attrs={'placeholder': 'Enter your email'}
+        )
+    )
 
     class Meta:
         model = get_user_model()
         fields = ['username', 'email', 'password1', 'password2']
+
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
