@@ -68,10 +68,11 @@ h1, h2 {
 }
 
 .nav-menu ul {
-  list-style-type: none;
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   padding: 0;
+  margin: 0;
 }
 
 .nav-menu li {
@@ -82,12 +83,12 @@ h1, h2 {
 .nav-menu a,
 .dropdown-content a,
 .nested-dropdown-content a {
-  font-size: 1.2rem;
-  color: white;
-  padding: 8px 16px;
-  background-color: transparent;
-  text-decoration: none;
   display: block;
+  padding: 8px 16px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  background-color: transparent;
+  color: white;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -109,11 +110,12 @@ h1, h2 {
 .nested-dropdown-content {
   display: none;
   position: absolute;
-  background-color: #fff;
   min-width: 200px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   z-index: 1;
+  color: #333;
 }
 
 .dropdown-content {
@@ -133,15 +135,19 @@ h1, h2 {
 
 .dropdown-content a,
 .nested-dropdown-content a {
-  background-color: transparent;
   color: #333;
-  border-radius: 0;
 }
 
 .dropdown-content a:hover,
 .nested-dropdown-content a:hover {
   background-color: #f1f1f1;
   color: #ff4500;
+}
+
+.nested-dropdown > a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .auth-links {
@@ -156,9 +162,9 @@ h1, h2 {
   color: #fff;
   padding: 8px 14px;
   border-radius: 4px;
-  text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
+  text-decoration: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }

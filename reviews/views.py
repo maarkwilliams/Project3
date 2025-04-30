@@ -3,6 +3,7 @@ from .models import Comment, Like
 from .forms import CommentForm
 from recipes.models import Recipe
 
+
 def add_comment(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     if request.method == 'POST':
@@ -15,11 +16,23 @@ def add_comment(request, recipe_id):
             return redirect('recipe_detail', id=recipe.id)
     else:
         form = CommentForm()
-    return render(request, 'comments/add_comment.html', {'form': form, 'recipe': recipe})
+    return render(
+        request,
+        'comments/add_comment.html',
+        {
+            'form': form,
+            'recipe': recipe
+        }
+    )
+
 
 def like_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
-    like, created = Like.objects.get_or_create(user=request.user, recipe=recipe)
+    like, created = Like.objects.get_or_create(
+        user=request.user,
+        recipe=recipe
+    )
+
     if not created:
         like.delete()
     return redirect('recipe_detail', id=recipe.id)

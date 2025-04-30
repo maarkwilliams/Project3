@@ -27,7 +27,7 @@
             <a href="#" class="dropbtn">Recipes <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
               <div class="nested-dropdown">
-                <span>By Category</span>
+                <a href="#">By Category <i class="fas fa-caret-right"></i></a>
                 <div class="nested-dropdown-content">
                   {% for category in category_choices %}
                     <a href="{% url 'recipes_by_category' category %}">{{ category }}</a>
@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="nested-dropdown">
-                <span>By Cuisine</span>
+                <a href="#">By Cuisine <i class="fas fa-caret-right"></i></a>
                 <div class="nested-dropdown-content">
                   {% for cuisine in cuisine_choices %}
                     <a href="{% url 'recipes_by_cuisine' cuisine %}">{{ cuisine }}</a>

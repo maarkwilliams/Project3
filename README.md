@@ -1,18 +1,10 @@
 # TasteBuds
 
-ADD LOGO HERE!!!!!!!!!!!!!
+![TasteBuds Banner](documentation/readme/banner.png)
 
-TasteBuds is a full stack e-commerce website built using Django, Python, HTML, CSS and JavaScript.
+TasteBuds is a full stack website built using Django, Python, HTML, CSS and JavaScript.
 
-ADD SITE URL HERE !!!!!!!!!!!!!!!
-
-
-
-
-
-
-
-
+[Visit TasteBuds Here](https://tastebuds-project3-ab3740a15628.herokuapp.com/recipes/)
 
 ---
 
@@ -390,14 +382,156 @@ In the development of this project, several tools and programs were employed to 
 
 The project is deployed using Heroku. To deploy the project:
 
+#### **Heroku app setup**
 
-DATABASE
+  1. From the [Heroku dashboard](https://dashboard.heroku.com/), click the new button in the top right corner and select create new app.
+  2. Give your app a name (this must be unique), select the region that is closest to you and then click the create app button bottom left.
 
-HEROKU
+#### **Preparation for deployment in VSCode**
 
-CLOUDINARY
+1. Install dj_database_url and psycopg2 (they are both needed for connecting to the external database you've just set up):
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   ```bash
+   pip3 install dj_database_url==0.5.0 psycopg2
+   ```
+
+2. Update your requirements.txt file with the packages just installed:
+
+    ```bash
+    pip3 freeze > requirements.txt
+    ```
+
+3. In settings.py underneath import os, add `import dj_database_url`
+
+4. Find the section for DATABASES and comment out the code. Add the following code below the commented out database block, and use the URL copied from elephantSQL for the value:
+
+    (NOTE! don't delete the original section, as this is a temporary step whilst we connect the external database. Make sure you don't push this value to GitHub - this value should not be saved to GitHub, it will be added to the Heroku config vars in a later step, this is temporary to allow us to migrate our models to the external database)
+
+    ```python
+    DATABASES = {
+        'default': dj_database_url.parse('paste-elephantsql-db-url-here')
+    }
+    ```
+
+5. In the terminal, run the show migrations command to confirm connection to the external database:
+
+    ```bash
+    python3 manage.py runserver
+    ```
+
+6. If you have connected the database correctly you will see a list of migrations that are unchecked. You can now run migrations to migrate the models to the new database:
+
+    ```bash
+    python3 manage.py migrate
+    ```
+
+7. Create a superuser for the new database. Input a username, email and password when directed.
+
+    ```bash
+    python3 manage.py createsuperuser
+    ```
+
+8. Install gunicorn which will act as our webserver and freeze this to the requirements.txt file:
+
+    ```bash
+    pip3 install gunicorn
+    pip3 freeze > requirements.txt
+    ```
+
+9. Create a `Procfile` in the root directory. This tells Heroku to create a web dyno which runs gunicorn and serves our django app. Add the following to the file (making sure not to leave any blank lines underneath):
+
+    ```Procfile
+    web: gunicorn seaside_sewing.wsgi:application
+    ```
+
+10. Log into the Heroku CLI in the terminal and then run the following command to disable collectstatic. This command tells Heroku not to collect static files when we deploy:
+
+    ```bash
+    heroku config:set DISABLE_COLLECTSTATIC=1 --app heroku-app-name-here
+    ```
+
+11. We will also need to add the Heroku app and localhost (which will allow GitPod to still work) to ALLOWED_HOSTS = [] in settings.py:
+
+    ```python
+    ALLOWED_HOSTS = ['{heroku deployed site URL here}', 'localhost' ]
+    ```
+
+12. Save, add, commit and push the changes to GitHub. You can then also initialize the Heroku git remote in the terminal and push to Heroku with:
+
+    ```bash
+    heroku git:remote -a {app name here}
+    git push heroku master
+    ```
+
+13. You should now be able to see the deployed site (without any static files as we haven't set these up yet).
+
+14. To enable automatic deploys on Heroku, go to the deploy tab and click the connect to GitHub button in the deployment method section. Search for the projects repository and then click connect. Click enable automatic deploys at the bottom of the page.
+
+#### **Generate a SECRET KEY & Updating Debug**
+
+1. Django automatically sets a secret key when you create your project, however we shouldn't use this default key in our deployed version, as it leaves our site vulnerable. We can use a random key generator to create a new SECRET_KEY which we can then add to our Heroku config vars which will then keep the key protected.
+2. [Django Secret Key Generator](https://miniwebtool.com/django-secret-key-generator/) is an example of a site we could use to create our secret key. Create a new key and copy the value.
+3. In Heroku settings create a new config var with a key of `SECRET_KEY`. The value will be the secret key we just created. Click add.
+4. In settings.py we can now update the `SECRET_KEY` variable, asking it to get the secret key from the environment, or use an empty string in development:
+
+    ```python
+    SECRET_KEY = os.environ.get('SECRET_KEY', ' ')
+    ```
+
+5. We can now adjust the `DEBUG` variable to only set DEBUG as true if in development:
+
+    ```python
+    DEBUG = 'DEVELOPMENT' in os.environ
+    ```
+
+6. Save, add, commit and push these changes.
+
+#### Cloudinary Setup for Django
+
+Cloudinary is used in this project to store and serve uploaded media files such as images for recipes and user profile pictures.
+
+##### Prerequisites
+
+- A [Cloudinary account](https://cloudinary.com/users/register/free)
+- `django-cloudinary-storage` installed
+
+##### Installation & Configuration
+
+1. **Install the Cloudinary packages**
+   ```bash
+   pip install cloudinary django-cloudinary-storage
+
+2. Update INSTALLED_APPS in settings.py
+```
+INSTALLED_APPS = [
+    ...
+    'cloudinary',
+    'cloudinary_storage',
+]
+```
+3. Add Cloudinary as your default file storage in settings.py
+```
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+```
+
+4. Set media URL 
+```
+MEDIA_URL = '/media/'
+
+```
+
+5. Add your Cloudinary credentials to your environment
+```
+CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+
+```
+
+6. On Heroku: Set your Cloudinary config in the Heroku dashboard or CLI:
+```
+heroku config:set CLOUDINARY_URL='cloudinary://API_KEY:API_SECRET@CLOUD_NAME'
+
+``` 
 
 ### Local Development
 
@@ -437,7 +571,7 @@ pip3 install -r requirements.txt
 
 ## Testing
 
-Please refer to the [TESTING.md](TESTING.md) file for all testing performed. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Please refer to the [TESTING.md](/TESTING.md)
 
 ---
 

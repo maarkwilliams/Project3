@@ -6,7 +6,7 @@ import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-ll%@gw@xqs=gh#xtjkm2ucm1_em(8nplt06dpic0d3h)_o6y$8'
+SECRET_KEY = 'django-prod-qv1^)+u@9b5_!x%9&4l%i7-@5^jv5p(x!+#u-2-!x3@_9l@)ez-2025'
 DEBUG = True
 ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1']
 
