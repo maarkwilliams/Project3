@@ -13,7 +13,8 @@ def add_comment(request, recipe_id):
             comment.user = request.user
             comment.recipe = recipe
             comment.save()
-            return redirect('recipe_detail', id=recipe.id)
+            return redirect('recipe_detail', recipe_id=recipe.id)
+
     else:
         form = CommentForm()
     return render(
@@ -35,4 +36,5 @@ def like_recipe(request, recipe_id):
 
     if not created:
         like.delete()
-    return redirect('recipe_detail', id=recipe.id)
+    return redirect('recipe_detail', recipe_id=recipe.id)
+

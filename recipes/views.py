@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from reviews.forms import CommentForm
 from reviews.models import Like
 from django.contrib import messages
+from django.http import HttpResponseForbidden
+
 
 # Cloudinary config
 cloudinary.config(
@@ -98,7 +100,10 @@ def delete_recipe(request, recipe_id):
 
 @login_required
 def edit_recipe(request, recipe_id):
-    recipe = get_object_or_404(Recipe, id=recipe_id, created_by=request.user)
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+
+    if recipe.created_by != request.user and not request.user.is_staff:
+        return HttpResponseForbidden("You are not allowed to edit this recipe.")
 
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
