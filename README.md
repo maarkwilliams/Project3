@@ -249,29 +249,52 @@ By relying on user-generated content, the site remains dynamic and personal, sho
 
 ### General Features of the site
 
+The Recipe Web App provides a user-friendly platform for discovering, sharing, and managing recipes. Key features include:
 
+- **Easy-to-Use Navigation Bar**  
+  A responsive, accessible navigation bar helps users easily explore the site, with quick access to home, add recipe, categories, cuisines, login/logout, and profile.
 
+  ![Navbar](documentation/readme/nav-bar-f.png)
 
+- **Browse Recipes**  
+  View a list of all available recipes with images, ingredients, and preparation steps.
 
+  ![Browse Recipes](documentation/readme/browse-recipes-f.png)
 
+- **Add Your Own Recipes**  
+  Authenticated users can contribute their own recipes through a structured submission form.
 
+  ![Add Recipe](documentation/readme/add-recipe-f.png)
 
+- **Organized Filtering**  
+  Dropdown menus allow users to browse recipes efficiently by category or cuisine.
 
+  ![Organised Filtering](documentation/readme/organised-filter-f.png)
 
+- **User Accounts**  
+  Users can register, log in, and manage their profiles securely.
 
+  ![User Accounts](documentation/readme/Login-f.png)
 
+  - **Profile Management**  
+  Users can update their **profile bio** and **profile picture** to personalise their account.
 
+  ![Profile](documentation/readme/Profile-f.png)
 
+- **Edit/Delete Recipes**  
+  Users have the ability to update or delete their own submitted recipes.
 
+  ![Edit/Delete Button](documentation/readme/edit-delete-f.png)
 
+- **Recipe Reviews**
+  Users can like and comment on recipes to help others.
 
+  ![recipe Reviews](documentation/readme/comment-like-f.png)
 
+- **Responsive Design**  
+  Fully mobile-friendly layout with intuitive navigation and modern visual styling.
 
-
-
-
-
-
+  ![Responsive Design](documentation/readme/responsive-design-f.png)
 
 ### Future Implementations
 
