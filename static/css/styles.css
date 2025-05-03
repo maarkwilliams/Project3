@@ -179,14 +179,32 @@ h1, h2 {
 .site-footer {
   background-color: #333;
   color: white;
-  text-align: center;
   padding: 20px 0;
   width: 100%;
-  margin-top: auto;
 }
 
-footer p {
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; 
+}
+
+.footer-content p {
   font-size: 1rem;
+  text-align: center;
+  flex: 1;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 1.2rem;
+  text-decoration: none;
 }
 
 /* Burger menu*/

@@ -247,7 +247,7 @@ By relying on user-generated content, the site remains dynamic and personal, sho
 
 ## Features
 
-### General Features of of the site
+### General Features of the site
 
 
 
