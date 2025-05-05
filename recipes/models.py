@@ -24,6 +24,7 @@ CUISINE_CHOICES = [
 ]
 
 
+# Main model representing a recipe
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -50,6 +51,7 @@ class Recipe(models.Model):
         return self.prep_time + self.cook_time
 
 
+# Model representing an ingredient belonging to a recipe
 class Ingredient(models.Model):
     recipe = models.ForeignKey(
         Recipe,

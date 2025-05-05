@@ -4,6 +4,7 @@ from recipes.models import Recipe
 from django.conf import settings
 
 
+# Model representing a user's comment on a recipe
 class Comment(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -22,6 +23,7 @@ class Comment(models.Model):
         return f"Comment by {self.user.username} on {self.recipe.name}"
 
 
+# Model representing a user's "like" on a recipe
 class Like(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

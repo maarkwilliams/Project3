@@ -3,12 +3,14 @@ from pathlib import Path
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from decouple import config
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-prod-qv1^)+u@9b5_!x%9&4l%i7-@5^jv5p(x!+#u-2-!x3@_9l@)ez-2025'
+SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
-ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -59,10 +61,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'my_project.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -80,14 +79,16 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'diihryuh9',
-    'API_KEY': '488752741654499',
-    'API_SECRET': 'ExWH3aUo9TcKCrsbYKSx34Mhpnc'
+    'CLOUD_NAME': config('CLOUD_NAME'),
+    'API_KEY': config('API_KEY'),
+    'API_SECRET': config('API_SECRET'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from .models import CustomUser
 
 
+# Custom form for user creation with email field included
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
         required=True,
@@ -17,6 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
+# Form for updating user profile details
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = get_user_model()

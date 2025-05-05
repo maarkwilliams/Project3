@@ -3,6 +3,7 @@ from django.forms import inlineformset_factory
 from .models import Recipe, Ingredient
 
 
+# Form for creating or editing a recipe
 class RecipeForm(forms.ModelForm):
     image = forms.ImageField(required=False)
 
@@ -15,6 +16,7 @@ class RecipeForm(forms.ModelForm):
         ]
 
 
+# Form for creating or editing an ingredient associated with a recipe
 class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
@@ -30,7 +32,7 @@ class IngredientForm(forms.ModelForm):
                 widget=forms.HiddenInput()
             )
 
-
+# Create a formset for handling multiple ingredients for a recipe
 IngredientFormSet = inlineformset_factory(
     Recipe,
     Ingredient,
