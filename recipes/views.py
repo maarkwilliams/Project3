@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 import cloudinary.uploader
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecipeForm, IngredientFormSet
@@ -8,11 +10,14 @@ from reviews.models import Like
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 
-# Cloudinary configuration for image uploads
+# Load environment variables from .env file
+load_dotenv()
+
+# Cloudinary configuration
 cloudinary.config(
-    cloud_name="diihryuh9",
-    api_key="488752741654499",
-    api_secret="ExWH3aUo9TcKCrsbYKSx34Mhpnc"
+    cloud_name=os.getenv("CLOUD_NAME"),
+    api_key=os.getenv("API_KEY"),
+    api_secret=os.getenv("API_SECRET")
 )
 
 @login_required
