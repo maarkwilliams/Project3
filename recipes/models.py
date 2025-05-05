@@ -24,7 +24,6 @@ CUISINE_CHOICES = [
 ]
 
 
-# Main model representing a recipe
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -40,7 +39,6 @@ class Recipe(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -51,7 +49,6 @@ class Recipe(models.Model):
         return self.prep_time + self.cook_time
 
 
-# Model representing an ingredient belonging to a recipe
 class Ingredient(models.Model):
     recipe = models.ForeignKey(
         Recipe,
@@ -63,3 +60,21 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return f"{self.quantity} of {self.name}"
+
+
+class Comment(models.Model):
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='recipe_comments'
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='recipe_comment_authors'
+    )
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.recipe.name}"

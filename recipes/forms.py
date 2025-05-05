@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import inlineformset_factory
-from .models import Recipe, Ingredient
+from .models import Recipe, Ingredient, Comment
 
 
 # Form for creating or editing a recipe
@@ -41,3 +41,14 @@ IngredientFormSet = inlineformset_factory(
     can_delete=True,
     validate_min=False
 )
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+
+    def clean_content(self):
+        content = self.cleaned_data.get('content', '').strip()
+        if not content:
+            raise forms.ValidationError("Comment cannot be blank or contain only whitespace.")
+        return content

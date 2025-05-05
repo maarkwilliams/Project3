@@ -1,21 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
-from recipes.models import Recipe
 from django.conf import settings
+from recipes.models import Recipe
 
 
-# Model representing a user's comment on a recipe
 class Comment(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='review_comment_authors'
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='comments'
+        related_name='review_comments'
     )
-
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -23,7 +21,6 @@ class Comment(models.Model):
         return f"Comment by {self.user.username} on {self.recipe.name}"
 
 
-# Model representing a user's "like" on a recipe
 class Like(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

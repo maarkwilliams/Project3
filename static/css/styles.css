@@ -1262,7 +1262,7 @@ textarea {
     max-width: 300px;
     height: 100vh;
     background-color: #ff6347;
-    padding: 80px 20px 20px;
+    padding: 20px;
     transition: right 0.3s ease;
     z-index: 999;
     overflow-y: auto;
@@ -1275,6 +1275,8 @@ textarea {
   .nav-menu ul {
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .nav-menu li {
