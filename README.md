@@ -337,7 +337,7 @@ To further ensure the app’s accessibility, I have tested it using the followin
 
 * WAVE: Used the WAVE tool to further evaluate the app’s compliance with accessibility standards.
 
-For more details on the testing process and results, please refer to the TESTING.md file. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+For more details on the testing process and results, please refer to the [TESTING.md](/TESTING.md).
 
 ---
 

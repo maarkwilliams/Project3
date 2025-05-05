@@ -15,8 +15,6 @@ Automated tools such as Lighthouse and WAVE were used to assess accessibility, p
 ---
 ## Validation Testing
 
-### HTML
-
 ### HTML Validation
 
 HTML was validated using the [W3C Markup Validation Service](https://validator.w3.org/). As the project is built using Django, which uses a templating language within HTML files, I validated the HTML by inspecting the fully rendered page in the browser (using "View Page Source") and copying that output into the validator. This ensured that the actual output served to users was compliant with HTML standards.
