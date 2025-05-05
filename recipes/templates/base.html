@@ -1,15 +1,14 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Recipe App</title>
-  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/static/favicon/favicon-16x16.png"/>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
 </head>
 <body class="recipe-app">
   <header class="site-header">
@@ -19,7 +18,7 @@
         <span></span>
         <span></span>
         <span></span>
-      </button>      
+      </button>
       <nav class="nav-menu" id="navigation">
         <ul>
           <li><a href="{% url 'recipe_list' %}">Home</a></li>
@@ -46,56 +45,47 @@
           </li>
           <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
           {% if user.is_authenticated %}
-            <li><a href="{% url 'profile' %}">Profile</a></li>   
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li>
+              <form action="{% url 'logout' %}" method="POST" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+              </form>
+            </li>
+          {% else %}
+            <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
           {% endif %}
         </ul>
       </nav>
-      <div class="auth-links">
-        {% if user.is_authenticated %}
-          <form action="{% url 'logout' %}" method="POST" class="logout-form">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn">Logout</button>
-          </form>
-        {% else %}
-          <a href="{% url 'login' %}" class="login-btn">Login</a>
-        {% endif %}
-      </div>      
     </div>
   </header>
+
   <main class="main-content">
     {% block content %}
     {% endblock %}
   </main>
+
   <footer class="site-footer">
     <div class="container footer-content">
       <div class="social-icons">
-        <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
-          <i class="fab fa-youtube"></i>
-        </a>
-        <a href="https://www.twitter.com/" target="_blank" rel="noopener" aria-label="Twitter">
-          <i class="fab fa-twitter"></i>
-        </a>
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.twitter.com/" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
       </div>
       <p>&copy; 2025 RecipeApp. All rights reserved.</p>
     </div>
   </footer>
-  
+
   {% block scripts %}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const burger = document.querySelector('.burger');
       const navMenu = document.querySelector('.nav-menu');
 
-      burger.addEventListener('click', function () {
+      burger?.addEventListener('click', function () {
         navMenu.classList.toggle('active');
-        
-        const expanded = burger.getAttribute('aria-expanded') === 'true' || false;
+        const expanded = burger.getAttribute('aria-expanded') === 'true';
         burger.setAttribute('aria-expanded', !expanded);
       });
     });

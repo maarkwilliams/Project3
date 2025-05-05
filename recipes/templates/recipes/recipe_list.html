@@ -2,34 +2,34 @@
 
 {% block content %}
 
-{% if filter_title %}
-  <h2>{{ filter_title }}</h2>
-{% else %}
-  <h2>All Recipes</h2>
-{% endif %}
-  
+
+  {% if filter_title %}
+    <h2>{{ filter_title }}</h2>
+  {% else %}
+    <h2>All Recipes</h2>
+  {% endif %}
   <a href="{% url 'add_recipe' %}" class="btn btn-primary">Add New Recipe</a>
 
-  <div class="recipe-card-container">
-    {% for recipe in recipes %}
-      <div class="recipe-card">
-        <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image" class="recipe-card-img">
-        
-        <div class="recipe-card-content">
-          <h3><a href="{% url 'recipe_detail' recipe.id %}" class="recipe-card-title">{{ recipe.name }}</a></h3>
-          <p class="recipe-card-description">{{ recipe.description|truncatewords:20 }}</p>
+<div class="recipe-card-container">
+  {% for recipe in recipes %}
+    <div class="recipe-card">
+      <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image" class="recipe-card-img">
+      
+      <div class="recipe-card-content">
+        <h3><a href="{% url 'recipe_detail' recipe.id %}" class="recipe-card-title">{{ recipe.name }}</a></h3>
+        <p class="recipe-card-description">{{ recipe.description|truncatewords:20 }}</p>
 
-          <div class="recipe-card-details">
-            <p><strong>Category:</strong> {{ recipe.category }}</p>
-            <p><strong>Serving Size:</strong> {{ recipe.serving_size }}</p>
-            <p><strong>Prep Time:</strong> {{ recipe.prep_time }} mins</p>
-            <p><strong>Cook Time:</strong> {{ recipe.cook_time }} mins</p>
-          </div>
+        <div class="recipe-card-details">
+          <p><strong>Category:</strong> {{ recipe.category }}</p>
+          <p><strong>Serving Size:</strong> {{ recipe.serving_size }}</p>
+          <p><strong>Prep Time:</strong> {{ recipe.prep_time }} mins</p>
+          <p><strong>Cook Time:</strong> {{ recipe.cook_time }} mins</p>
         </div>
       </div>
-    {% empty %}
-      <p>No recipes found.</p>
-    {% endfor %}
-  </div>
+    </div>
+  {% empty %}
+    <p>No recipes found.</p>
+  {% endfor %}
+</div>
 
 {% endblock %}
