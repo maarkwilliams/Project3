@@ -217,23 +217,57 @@ body {
   text-decoration: none;
 }
 
-/* Burger menu */
+/* Burger Menu */
 .burger {
   display: none;
-  flex-direction: column;
-  gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 10px;
+  z-index: 1000;
+  position: relative;
+  width: 30px;
+  height: 24px;
 }
 
 .burger span {
   display: block;
-  width: 25px;
+  position: absolute;
   height: 3px;
-  background: white;
-  border-radius: 2px;
+  width: 100%;
+  background-color: white;
+  border-radius: 3px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: .25s ease-in-out;
+}
+
+.burger span:nth-child(1) {
+  top: 0px;
+}
+
+.burger span:nth-child(2) {
+  top: 10px;
+}
+
+.burger span:nth-child(3) {
+  top: 20px;
+}
+
+.burger.active span:nth-child(1) {
+  top: 10px;
+  transform: rotate(135deg);
+}
+
+.burger.active span:nth-child(2) {
+  opacity: 0;
+  left: -60px;
+}
+
+.burger.active span:nth-child(3) {
+  top: 10px;
+  transform: rotate(-135deg);
 }
 
 .recipe-card-container {
@@ -249,7 +283,6 @@ body {
   margin-right: auto;
 }
 
-=
 .recipe-card {
   background-color: #fff;
   border-radius: 10px;
@@ -1218,28 +1251,72 @@ textarea {
 /*Media queries */
 @media (max-width: 992px) {
   .burger {
-    display: flex;
+    display: block;
   }
 
   .nav-menu {
-    display: none; 
-    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
     background-color: #ff6347;
-    width: 100%;
-    margin-top: 10px;
+    padding: 80px 20px 20px;
+    transition: right 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
   }
 
   .nav-menu.active {
-    display: flex;
+    right: 0;
   }
 
   .nav-menu ul {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .nav-menu li {
+    width: 100%;
     margin: 10px 0;
+  }
+
+  .nav-menu a {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    text-align: left;
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+  }
+
+  .dropdown.open .dropdown-content {
+    display: block;
+  }
+
+  .nested-dropdown-content {
+    position: static;
+    width: 100%;
+    left: 0;
+    top: 0;
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .nested-dropdown.open .nested-dropdown-content {
+    display: block;
+  }
+
+  body.menu-open {
+    overflow: hidden;
   }
 
   .recipe-card-container {
